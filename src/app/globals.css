@@ -2,6 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700;1,800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* ── Design Tokens ── */
 :root {
   --surface:                    #fff8f1;
@@ -288,6 +293,37 @@ h1.display { margin: 8px 0 12px; font: 700 40px/1.2 var(--font-display); letter-
 /* ── Plan layout ── */
 .plan-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 24px; }
 @media (max-width: 1024px) { .plan-grid { grid-template-columns: 1fr; } }
+
+/* ── Plan summary banner ── */
+.plan-summary { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; background: rgba(184,237,179,.18); border: 1px solid rgba(57,105,59,.22); border-radius: 14px; }
+.plan-summary p { margin: 0; font: 400 15px/1.65 var(--font-body); color: var(--on-surface); }
+.plan-summary-skeleton { background: var(--surface-container-lowest); border-color: var(--outline-variant); }
+
+/* ── Key Resources ── */
+.resource-row { display: flex; gap: 14px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--outline-variant); }
+.resource-row:last-child { border-bottom: none; padding-bottom: 0; }
+.resource-row:first-child { padding-top: 0; }
+.resource-icon { padding: 8px; background: var(--secondary-container); color: var(--on-secondary-container); border-radius: 8px; font-size: 20px; flex-shrink: 0; }
+.resource-name { margin: 0; font: 700 14px/1.4 var(--font-body); color: var(--on-surface); }
+.resource-contact { margin: 2px 0 3px; font: 400 13px/1.4 var(--font-body); color: var(--secondary); }
+.resource-desc { margin: 0; font: 400 13px/1.55 var(--font-body); color: var(--on-surface-variant); }
+
+/* ── Roadblocks ── */
+.roadblock-item { padding: 14px 16px; border-left: 3px solid var(--error); border-radius: 0 8px 8px 0; background: var(--surface-container-lowest); border-top: 1px solid var(--outline-variant); border-right: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant); }
+.roadblock-challenge { margin: 0 0 4px; font: 700 14px/1.4 var(--font-body); color: var(--on-surface); }
+.roadblock-solution { margin: 0; font: 400 13px/1.55 var(--font-body); color: var(--on-surface-variant); }
+
+/* ── Budget ── */
+.budget-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--outline-variant); }
+.budget-row:last-child { border-bottom: none; padding-bottom: 0; }
+.budget-row:first-child { padding-top: 0; }
+.budget-phase { margin: 0; font: 700 14px/1.4 var(--font-body); color: var(--on-surface); }
+.budget-desc { margin: 2px 0 0; font: 400 12px/1.45 var(--font-body); color: var(--on-surface-variant); }
+.budget-cost { font: 700 16px/1 var(--font-display); color: var(--primary); white-space: nowrap; flex-shrink: 0; }
+
+/* ── Skeleton loading ── */
+.skeleton-line { background: var(--surface-dim); animation: skeleton-pulse 1.5s ease-in-out infinite; }
+@keyframes skeleton-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.38; } }
 
 /* ── Tag chip row ── */
 .tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
