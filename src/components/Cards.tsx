@@ -1,6 +1,7 @@
 'use client';
 
 import { Pathway, Evaluator } from '@/types';
+import { getValidIcon } from '@/utils/icons';
 
 export function StatusPill({ kind, children }: { kind: string; children: React.ReactNode }) {
   return <span className={`pill status-${kind}`}>{children}</span>;
@@ -17,7 +18,7 @@ export function PathwayCard({
   return (
     <div className={`pathway-card${selected ? ' recommended' : ''}`}>
       <div className="pathway-top">
-        <span className="pathway-icon material-symbols-outlined">{icon}</span>
+        <span className="pathway-icon material-symbols-outlined">{getValidIcon(icon)}</span>
         {recommended && <span className="recommended-chip">Recommended</span>}
       </div>
       <h3>{title}</h3>
@@ -49,7 +50,7 @@ export function EvaluatorCard({
     <div className={`evaluator-card${selected ? ' selected' : ''}`}>
       {ribbon && (
         <span className="evaluator-ribbon">
-          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{ribbon.icon}</span>
+          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{getValidIcon(ribbon.icon)}</span>
           {ribbon.label}
         </span>
       )}

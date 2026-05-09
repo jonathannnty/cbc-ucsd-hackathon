@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AppState, Pathway } from '@/types';
 import { PathwayCard } from '@/components/Cards';
+import { ConfirmationModal } from '@/components/ConfirmationModal';
 
 const PROFESSION_LABELS: Record<string, string> = {
   doctor:    'Doctor / Physician',
@@ -57,8 +58,11 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
   const [pathways, setPathways] = useState<Pathway[] | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [pendingPathwayIndex, setPendingPathwayIndex] = useState<number | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const bufferRef = useRef('');
   const abortRef = useRef<AbortController | null>(null);
+  const initialFetchRef = useRef(true);
 
   const profLabel =
     state.profession === 'other' && state.otherProfession
@@ -67,10 +71,8 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
 
   function startFetch() {
     setStatus('loading');
-    setPathways(null);
     setErrorMsg(null);
     bufferRef.current = '';
-    update({ pickedPathway: null });
 
     const controller = new AbortController();
     abortRef.current = controller;
@@ -96,6 +98,10 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
         const parsed = parsePathways(bufferRef.current);
         if (parsed && parsed.length > 0) {
           setPathways(parsed);
+          if (initialFetchRef.current) {
+            update({ pickedPathway: null });
+            initialFetchRef.current = false;
+          }
           setStatus('ready');
         } else {
           throw new Error('Could not parse pathway recommendations.');
@@ -115,6 +121,23 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const isLoading = status === 'loading';
+
+  function handlePathwaySelect(index: number) {
+    if (state.pickedPathway !== null && state.pickedPathway !== index) {
+      setPendingPathwayIndex(index);
+      setShowConfirmModal(true);
+    } else {
+      update({ pickedPathway: index });
+    }
+  }
+
+  function confirmPathwayChange() {
+    if (pendingPathwayIndex !== null) {
+      update({ pickedPathway: pendingPathwayIndex });
+      setPendingPathwayIndex(null);
+      setShowConfirmModal(false);
+    }
+  }
 
   return (
     <div className="canvas-wide">
@@ -152,7 +175,7 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
                     key={p.title}
                     {...p}
                     selected={state.pickedPathway === i}
-                    onSelect={() => update({ pickedPathway: i })}
+                    onSelect={() => handlePathwaySelect(i)}
                   />
                 ))
             }
@@ -170,6 +193,20 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
           </button>
         </div>
       </div>
+
+      {showConfirmModal && (
+        <ConfirmationModal
+          title="Change Pathway?"
+          message="Changing your pathway selection will generate a new SMART plan. Your previously saved information will be updated. Are you sure?"
+          onConfirm={confirmPathwayChange}
+          onCancel={() => {
+            setShowConfirmModal(false);
+            setPendingPathwayIndex(null);
+          }}
+          confirmLabel="Yes, Change It"
+          cancelLabel="Keep Current"
+        />
+      )}
     </div>
   );
 }
