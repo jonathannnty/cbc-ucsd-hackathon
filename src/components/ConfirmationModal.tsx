@@ -20,9 +20,8 @@ export function ConfirmationModal({
   isDangerous = false,
 }: ConfirmationModalProps) {
   return (
-    <>
-      <div className="modal-overlay" onClick={onCancel} />
-      <div className="modal-card">
+    <div className="modal-overlay" onClick={onCancel}>
+      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <h2 style={{ margin: '0 0 12px' }}>{title}</h2>
         <div style={{ marginBottom: 24, color: 'var(--on-surface-variant)', fontSize: 15, lineHeight: 1.5 }}>
           {message}
@@ -38,6 +37,6 @@ export function ConfirmationModal({
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
