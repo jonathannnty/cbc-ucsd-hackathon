@@ -55,7 +55,7 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
 
         <div className="row-actions">
           <button className="btn-secondary" onClick={onBack}>Back</button>
-          <button className="btn-primary" onClick={onContinue}>Continue to Verification</button>
+          <button className="btn-primary" onClick={onContinue} disabled={state.pickedPathway === null}>Continue to Verification</button>
         </div>
       </div>
     </div>

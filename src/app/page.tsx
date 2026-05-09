@@ -39,13 +39,18 @@ const STEPPER_SCREENS: Screen[] = [
 
 export default function Home() {
   const [state, setState] = useState<AppState>(INITIAL_STATE);
+  const [highestReached, setHighestReached] = useState(0);
 
   const update = (patch: Partial<AppState>) =>
     setState((s) => ({ ...s, ...patch }));
 
   const next = () => {
     const i = FLOW.indexOf(state.screen);
-    if (i < FLOW.length - 1) update({ screen: FLOW[i + 1] });
+    if (i < FLOW.length - 1) {
+      const nextIdx = STEPPER_SCREENS.indexOf(FLOW[i + 1]);
+      if (nextIdx > highestReached) setHighestReached(nextIdx);
+      update({ screen: FLOW[i + 1] });
+    }
   };
 
   const back = () => {
@@ -54,20 +59,21 @@ export default function Home() {
   };
 
   const stepperIdx = STEPPER_SCREENS.indexOf(state.screen);
+  const effectiveHighest = Math.max(highestReached, stepperIdx);
   const completedIds =
-    stepperIdx > 0 ? (STEPPER_SCREENS.slice(0, stepperIdx) as Screen[]) : [];
+    effectiveHighest > 0 ? (STEPPER_SCREENS.slice(0, effectiveHighest) as Screen[]) : [];
 
   const showShell = state.screen !== 'welcome';
 
+  const navigateTo = (screen: Screen) => update({ screen });
+
   return (
     <div className="app">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/blob.svg" className="deco-blob" aria-hidden="true" alt="" />
       <TopNavBar />
 
       {showShell ? (
         <div className="shell">
-          <JourneyStepper activeId={state.screen} completedIds={completedIds} />
+          <JourneyStepper activeId={state.screen} completedIds={completedIds} onNavigate={navigateTo} />
           <main className="canvas">
             {state.screen === 'identity' && (
               <IdentityScreen state={state} update={update} onBack={back} onContinue={next} />
@@ -91,7 +97,13 @@ export default function Home() {
               <PlanScreen state={state} onBack={back} onContinue={next} />
             )}
             {state.screen === 'complete' && (
-              <CompleteScreen onRestart={() => setState(INITIAL_STATE)} />
+              <CompleteScreen
+                onRestart={() => { setState(INITIAL_STATE); setHighestReached(0); }}
+                onPrintPlan={() => {
+                  update({ screen: 'plan' });
+                  setTimeout(() => window.print(), 300);
+                }}
+              />
             )}
           </main>
         </div>

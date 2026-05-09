@@ -3,7 +3,6 @@
 import { AppState } from '@/types';
 import { PLAN_TASKS } from '@/data';
 import { TaskRow, MeasurableProgress, TimeBoundCalendar } from '@/components/Tasks';
-import { SpecialistCard } from '@/components/Cards';
 
 interface Props {
   state: AppState;
@@ -39,10 +38,6 @@ export default function PlanScreen({ onBack, onContinue }: Props) {
             <button className="btn-outline" onClick={() => window.print()}>
               <span className="material-symbols-outlined">print</span>
               Print PDF
-            </button>
-            <button className="btn-primary">
-              <span className="material-symbols-outlined">support_agent</span>
-              Talk to a Specialist
             </button>
           </div>
         </div>
@@ -84,7 +79,6 @@ export default function PlanScreen({ onBack, onContinue }: Props) {
               ]}
             />
             <TimeBoundCalendar month="October" year={2026} picked={15} deadlines={[22]} />
-            <SpecialistCard />
           </div>
         </div>
 

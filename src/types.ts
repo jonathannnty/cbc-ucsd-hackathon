@@ -10,6 +10,7 @@ export type Screen =
   | 'complete';
 
 export type Profession =
+  | ''
   | 'doctor'
   | 'nurse'
   | 'engineer'
@@ -18,6 +19,7 @@ export type Profession =
   | 'other';
 
 export type DegreeLevel =
+  | ''
   | 'high_school'
   | 'associate'
   | 'bachelor'
@@ -26,13 +28,25 @@ export type DegreeLevel =
   | 'professional';
 
 export type CredentialType =
+  | ''
   | 'degree'
   | 'license'
   | 'certification'
   | 'diploma'
   | 'other_credential';
 
-export type DocSituation = 'all' | 'partial' | 'none' | 'destroyed';
+export type DocSituation = '' | 'all' | 'partial' | 'none';
+
+export interface Qualification {
+  degreeLevel: DegreeLevel;
+  credentialType: CredentialType;
+  otherCredential: string;
+  fieldOfStudy: string;
+  otherFieldOfStudy: string;
+  institutionName: string;
+  institutionCountry: string;
+  graduationYear: string;
+}
 
 export interface AppState {
   screen: Screen;
@@ -41,20 +55,23 @@ export interface AppState {
   otherProfession: string;
   country: string;
   usState: string;
-  // education
+  // education (primary)
   degreeLevel: DegreeLevel;
   credentialType: CredentialType;
+  otherCredential: string;
   fieldOfStudy: string;
+  otherFieldOfStudy: string;
   institutionName: string;
   institutionCountry: string;
   graduationYear: string;
+  additionalQualifications: Qualification[];
   // documents
   docSituation: DocSituation;
   // budget
   budget: number;
   months: number;
   // pathway + verification
-  pickedPathway: number;
+  pickedPathway: number | null;
   pickedEvaluator: number | null;
 }
 
@@ -63,7 +80,7 @@ export interface Pathway {
   title: string;
   time: string;
   cost: string;
-  confidence: 'High' | 'Medium' | 'Low';
+  confidence: number;
   desc: string;
   recommended?: boolean;
 }
@@ -81,6 +98,7 @@ export interface Task {
   id: number;
   title: string;
   desc: string;
+  link?: { url: string; label: string };
   status: 'priority' | 'completed' | 'upcoming';
   statusLabel: string;
 }
