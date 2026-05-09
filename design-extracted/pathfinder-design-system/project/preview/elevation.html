@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .box{width:140px;height:80px;background:#fff;border-radius:12px;border:1px solid var(--outline-variant)}
+  .lvl0{box-shadow:none;background:var(--background)}
+  .lvl1{box-shadow:none}
+  .lvl2{box-shadow:0 4px 12px -2px rgba(156,63,18,0.10),0 2px 4px -2px rgba(156,63,18,0.06)}
+  .lvl3{box-shadow:0 12px 32px -8px rgba(156,63,18,0.15),0 4px 8px -4px rgba(156,63,18,0.08)}
+  .nm{font-size:12px;font-weight:600}
+  .lbl{font-size:11px;color:var(--on-surface-variant);text-align:center;max-width:140px}
+</style></head>
+<body>
+<div class="row">
+  <div class="cell"><div class="box lvl0"></div><div class="nm">Level 0</div><div class="lbl">page background</div></div>
+  <div class="cell"><div class="box lvl1"></div><div class="nm">Level 1</div><div class="lbl">card / 1px outline</div></div>
+  <div class="cell"><div class="box lvl2"></div><div class="nm">Level 2</div><div class="lbl">elevated / floating</div></div>
+  <div class="cell"><div class="box lvl3"></div><div class="nm">Level 3</div><div class="lbl">modal / hover lift</div></div>
+</div>
+<p style="margin-top:18px;font-size:12px;color:var(--on-surface-variant);max-width:600px">Tonal layers over heavy shadows. Diffuse, low-contrast lifts only — never sharp drop-shadows. Shadow tint is 10% of <code>--primary</code>.</p>
+</body></html>

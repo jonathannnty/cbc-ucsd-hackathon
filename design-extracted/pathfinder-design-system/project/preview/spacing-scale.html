@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;align-items:end}
+  .cell{background:#fff;border:1px solid var(--outline-variant);padding:10px;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:flex-end;min-height:120px}
+  .swatch{background:#9c3f12;width:100%}
+  .lbl{font:700 11px/1 'Atkinson Hyperlegible Next';letter-spacing:.06em;text-transform:uppercase;color:var(--on-surface-variant)}
+  .px{font:600 13px/1 'Atkinson Hyperlegible Next';color:var(--on-surface)}
+</style></head>
+<body>
+  <div class="grid">
+    <div class="cell"><div class="swatch" style="height:8px"></div><div class="lbl">unit</div><div class="px">8px</div></div>
+    <div class="cell"><div class="swatch" style="height:8px"></div><div class="lbl">stack-sm</div><div class="px">8px</div></div>
+    <div class="cell"><div class="swatch" style="height:24px"></div><div class="lbl">stack-md</div><div class="px">24px</div></div>
+    <div class="cell"><div class="swatch" style="height:24px"></div><div class="lbl">gutter</div><div class="px">24px</div></div>
+    <div class="cell"><div class="swatch" style="height:48px"></div><div class="lbl">stack-lg</div><div class="px">48px</div></div>
+    <div class="cell"><div class="swatch" style="height:48px"></div><div class="lbl">margin-desktop</div><div class="px">48px</div></div>
+  </div>
+</body></html>

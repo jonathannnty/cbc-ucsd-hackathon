@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .row{display:flex;flex-direction:column;gap:12px;max-width:520px}
+  label{font-size:14px;font-weight:600;color:var(--primary)}
+  .field{position:relative}
+  .field .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--on-surface-variant);font-family:'Material Symbols Outlined';font-size:22px}
+  input,select{width:100%;box-sizing:border-box;padding:14px 14px 14px 48px;background:var(--surface);border:1px solid var(--outline-variant);border-bottom:2px solid var(--primary);border-radius:8px;font-family:inherit;font-size:16px;outline:none;color:var(--on-surface)}
+  input:focus,select:focus{border-color:var(--primary)}
+</style></head>
+<body>
+<div class="row">
+  <div>
+    <label>What was your profession in your home country?</label>
+    <div class="field" style="margin-top:6px">
+      <span class="icon">work</span>
+      <select><option>Search or select a profession</option><option>Doctor / Physician</option></select>
+    </div>
+  </div>
+  <div>
+    <label>Which country did you earn your degree in?</label>
+    <div class="field" style="margin-top:6px">
+      <span class="icon">public</span>
+      <input placeholder="Enter country name">
+    </div>
+  </div>
+</div>
+</body></html>

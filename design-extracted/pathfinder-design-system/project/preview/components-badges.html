@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:9999px;font:700 12px/1 'Atkinson Hyperlegible Next';letter-spacing:.02em}
+  .high{background:#baf0b6;color:#215025}
+  .med{background:#fedead;color:#58431f}
+  .low{background:#ffdbce;color:#7f2b00}
+  .priority{background:#ffdad6;color:#93000a}
+  .completed{background:#b8edb3;color:#3e6d3e}
+  .upcoming{background:#ece1ce;color:#56423b}
+  .new{background:#b8edb3;color:#3e6d3e}
+  .recommended{background:#fffbff;color:#bc5629;border:1px solid #bc5629}
+</style></head>
+<body>
+  <div class="row">
+    <span class="pill high"><span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">check_circle</span>Confidence: High</span>
+    <span class="pill med">Confidence: Medium</span>
+    <span class="pill low">Confidence: Low</span>
+    <span class="pill priority">High Priority</span>
+    <span class="pill completed">Completed</span>
+    <span class="pill upcoming">Upcoming</span>
+    <span class="pill new">New Arrivals Support</span>
+    <span class="pill recommended">RECOMMENDED</span>
+  </div>
+</body></html>

@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .stack{display:flex;flex-direction:column;gap:14px;max-width:520px}
+  label{font:600 14px/1.4 'Atkinson Hyperlegible Next';color:#9c3f12;letter-spacing:.01em}
+  .field{position:relative;display:flex;align-items:center}
+  .field .material-symbols-outlined{position:absolute;left:14px;color:#56423b;font-size:22px;pointer-events:none}
+  .field .chev{left:auto;right:14px}
+  input,select{width:100%;padding:14px 14px 14px 44px;background:#fff8f1;border:1px solid #ddc0b6;border-bottom:2px solid #9c3f12;border-radius:8px;font:400 16px/1.6 'Atkinson Hyperlegible Next';color:#201b0f;appearance:none;-webkit-appearance:none;outline:none}
+  input:focus,select:focus{border-color:#9c3f12}
+  select{padding-right:44px}
+</style></head>
+<body>
+  <div class="stack">
+    <div>
+      <label for="p">What was your profession in your home country?</label>
+      <div class="field" style="margin-top:6px">
+        <span class="material-symbols-outlined">work</span>
+        <select id="p"><option>Doctor / Physician</option><option>Civil Engineer</option><option>Registered Nurse</option></select>
+        <span class="material-symbols-outlined chev">expand_more</span>
+      </div>
+    </div>
+    <div>
+      <label for="c">Which country did you earn your degree in?</label>
+      <div class="field" style="margin-top:6px">
+        <span class="material-symbols-outlined">public</span>
+        <input id="c" placeholder="Enter country name"/>
+      </div>
+    </div>
+  </div>
+</body></html>

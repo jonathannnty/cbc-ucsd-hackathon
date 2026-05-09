@@ -1,0 +1,172 @@
+/* Pathfinder Design System – Colors & Type
+ * Soft Corporate aesthetic. Terracotta primary, forest-green secondary,
+ * cream/parchment surfaces. Atkinson Hyperlegible Next throughout.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+:root {
+  /* === SURFACES (parchment / cream) === */
+  --surface:                       #fff8f1;
+  --surface-bright:                #fff8f1;
+  --surface-dim:                   #e3d9c5;
+  --surface-container-lowest:      #ffffff;
+  --surface-container-low:         #fef2de;
+  --surface-container:             #f8edd9;
+  --surface-container-high:        #f2e7d3;
+  --surface-container-highest:     #ece1ce;
+  --surface-variant:               #ece1ce;
+  --background:                    #fff8f1;
+
+  /* === FOREGROUND / TEXT === */
+  --on-surface:                    #201b0f;
+  --on-surface-variant:            #56423b;
+  --on-background:                 #201b0f;
+  --inverse-surface:               #353023;
+  --inverse-on-surface:            #fbf0db;
+
+  /* === PRIMARY (Terracotta — active guidance, brand presence) === */
+  --primary:                       #9c3f12;
+  --on-primary:                    #ffffff;
+  --primary-container:             #bc5629;
+  --on-primary-container:          #fffbff;
+  --primary-fixed:                 #ffdbce;
+  --primary-fixed-dim:             #ffb598;
+  --on-primary-fixed:              #370e00;
+  --on-primary-fixed-variant:      #7f2b00;
+  --inverse-primary:               #ffb598;
+  --surface-tint:                  #9f4114;
+
+  /* === SECONDARY (Forest Green — calm growth, success, completion) === */
+  --secondary:                     #39693b;
+  --on-secondary:                  #ffffff;
+  --secondary-container:           #b8edb3;
+  --on-secondary-container:        #3e6d3e;
+  --secondary-fixed:               #baf0b6;
+  --secondary-fixed-dim:           #9fd49b;
+  --on-secondary-fixed:            #002105;
+  --on-secondary-fixed-variant:    #215025;
+
+  /* === TERTIARY (Sand / muted gold) === */
+  --tertiary:                      #6f5832;
+  --on-tertiary:                   #ffffff;
+  --tertiary-container:            #8a7149;
+  --on-tertiary-container:         #fffbff;
+  --tertiary-fixed:                #fedead;
+  --tertiary-fixed-dim:            #e1c294;
+  --on-tertiary-fixed:             #281900;
+  --on-tertiary-fixed-variant:     #58431f;
+
+  /* === ERROR === */
+  --error:                         #ba1a1a;
+  --on-error:                      #ffffff;
+  --error-container:               #ffdad6;
+  --on-error-container:            #93000a;
+
+  /* === OUTLINE / DIVIDERS === */
+  --outline:                       #8a7269;
+  --outline-variant:               #ddc0b6;
+
+  /* === CONFIDENCE LEVELS (semantic, AI-output specific) === */
+  --confidence-high-bg:            var(--secondary-fixed);
+  --confidence-high-fg:            var(--on-secondary-fixed-variant);
+  --confidence-med-bg:             var(--tertiary-fixed);
+  --confidence-med-fg:             var(--on-tertiary-fixed-variant);
+  --confidence-low-bg:             var(--primary-fixed);
+  --confidence-low-fg:             var(--on-primary-fixed-variant);
+
+  /* === TYPE SCALE (Atkinson Hyperlegible Next) === */
+  --font-display: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --font-body:    'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --font-icon:    'Material Symbols Outlined';
+
+  --display-size: 40px;        --display-weight: 700; --display-lh: 1.2;  --display-tracking: -0.02em;
+  --headline-lg-size: 32px;    --headline-lg-weight: 700; --headline-lg-lh: 1.25;
+  --headline-md-size: 24px;    --headline-md-weight: 600; --headline-md-lh: 1.3;
+  --body-lg-size: 18px;        --body-lg-weight: 400; --body-lg-lh: 1.6;
+  --body-md-size: 16px;        --body-md-weight: 400; --body-md-lh: 1.6;
+  --label-md-size: 14px;       --label-md-weight: 600; --label-md-lh: 1.4; --label-md-tracking: 0.01em;
+  --headline-lg-mobile-size: 28px; --headline-lg-mobile-weight: 700; --headline-lg-mobile-lh: 1.25;
+
+  /* === RADIUS === */
+  --radius-sm: 0.25rem;       /* 4px – chips, small tags */
+  --radius:    0.5rem;        /* 8px – buttons, inputs (DEFAULT) */
+  --radius-md: 0.75rem;       /* 12px – nested cards */
+  --radius-lg: 1rem;          /* 16px – cards, sections */
+  --radius-xl: 1.5rem;        /* 24px – feature blocks */
+  --radius-full: 9999px;      /* pills, status badges */
+
+  /* === SPACING (8px rhythm) === */
+  --unit:            8px;
+  --stack-sm:        8px;
+  --stack-md:        24px;
+  --stack-lg:        48px;
+  --gutter:          24px;
+  --margin-mobile:   16px;
+  --margin-desktop:  48px;
+  --container-max:   1120px;
+
+  /* === ELEVATION (tonal layers > heavy shadows) === */
+  --shadow-sm: 0 1px 2px 0 rgba(156, 63, 18, 0.06);
+  --shadow-md: 0 4px 12px -2px rgba(156, 63, 18, 0.10), 0 2px 4px -2px rgba(156, 63, 18, 0.06);
+  --shadow-lg: 0 12px 32px -8px rgba(156, 63, 18, 0.15), 0 4px 8px -4px rgba(156, 63, 18, 0.08);
+}
+
+/* === SEMANTIC TYPE CLASSES === */
+.font-display, h1.display {
+  font-family: var(--font-display);
+  font-size: var(--display-size);
+  font-weight: var(--display-weight);
+  line-height: var(--display-lh);
+  letter-spacing: var(--display-tracking);
+}
+.font-headline-lg, h1, h2.headline-lg {
+  font-family: var(--font-display);
+  font-size: var(--headline-lg-size);
+  font-weight: var(--headline-lg-weight);
+  line-height: var(--headline-lg-lh);
+}
+.font-headline-md, h2, h3.headline-md {
+  font-family: var(--font-display);
+  font-size: var(--headline-md-size);
+  font-weight: var(--headline-md-weight);
+  line-height: var(--headline-md-lh);
+}
+.font-body-lg {
+  font-family: var(--font-body);
+  font-size: var(--body-lg-size);
+  font-weight: var(--body-lg-weight);
+  line-height: var(--body-lg-lh);
+}
+.font-body-md, body, p {
+  font-family: var(--font-body);
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-lg-lh);
+}
+.font-label-md, label, .label {
+  font-family: var(--font-body);
+  font-size: var(--label-md-size);
+  font-weight: var(--label-md-weight);
+  line-height: var(--label-md-lh);
+  letter-spacing: var(--label-md-tracking);
+}
+@media (max-width: 640px) {
+  .font-headline-lg, h1 {
+    font-size: var(--headline-lg-mobile-size);
+  }
+}
+
+/* Material Symbols default tuning */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Glass surface utility (used in Help/Support sidebars only) */
+.glass-sidebar {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-left: 1px solid rgba(229, 224, 218, 0.5);
+}

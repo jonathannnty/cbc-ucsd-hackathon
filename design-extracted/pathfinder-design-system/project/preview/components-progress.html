@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .row{display:flex;gap:14px;flex-wrap:wrap}
+  .card{flex:1;min-width:220px;background:#fff;border:1px solid #ddc0b6;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px}
+  .head{display:flex;justify-content:space-between;align-items:center}
+  h4{margin:0;font:600 18px/1.3 'Atkinson Hyperlegible Next'}
+  .pct{font:700 16px/1 'Atkinson Hyperlegible Next';color:#9c3f12}
+  .bar{height:14px;background:#ece1ce;border-radius:9999px;overflow:hidden}
+  .bar > i{display:block;height:100%;background:#9c3f12;border-radius:9999px}
+  .stat{display:flex;justify-content:space-between;font:600 14px/1.4 'Atkinson Hyperlegible Next';color:#56423b}
+  .stat b{color:#201b0f}
+  .calhead{display:flex;justify-content:space-between;align-items:center;font:700 13px/1 'Atkinson Hyperlegible Next'}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font:600 11px/1 'Atkinson Hyperlegible Next';color:var(--on-surface)}
+  .grid .dim{color:#8a7269}
+  .grid .day{padding:4px 0}
+  .grid .pick{background:#bc5629;color:#fff;border-radius:9999px}
+  .grid .deadline{position:relative}
+  .grid .deadline::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:4px;height:4px;background:#ba1a1a;border-radius:9999px}
+</style></head>
+<body>
+  <div class="row">
+    <div class="card">
+      <div class="head"><h4>Measurable Progress</h4><span class="pct">62%</span></div>
+      <div class="bar"><i style="width:62%"></i></div>
+      <div class="stat"><span>Documents Verified</span><b>5 / 8</b></div>
+      <div class="stat"><span>Exam Prep Modules</span><b>12 / 15</b></div>
+      <div class="stat"><span>State Approvals</span><b>1 / 4</b></div>
+    </div>
+    <div class="card">
+      <div class="calhead"><h4 style="font-size:16px">Time-bound</h4><span>Oct 2024</span></div>
+      <div class="grid">
+        <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+        <div class="day dim">29</div><div class="day dim">30</div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div>
+        <div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div>
+        <div class="day">13</div><div class="day">14</div><div class="day pick">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div>
+        <div class="day">20</div><div class="day">21</div><div class="day deadline">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div>
+      </div>
+    </div>
+  </div>
+</body></html>

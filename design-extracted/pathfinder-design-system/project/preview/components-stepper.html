@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .stepper{background:#fef2de;border-radius:16px;padding:20px;width:280px}
+  .stepper h2{margin:0;font:600 22px/1.3 'Atkinson Hyperlegible Next';color:#9c3f12}
+  .stepper .sub{font:600 13px/1.4 'Atkinson Hyperlegible Next';color:#56423b;margin:2px 0 16px}
+  nav{display:flex;flex-direction:column;gap:4px}
+  a{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;color:#56423b;font:600 14px/1.4 'Atkinson Hyperlegible Next';text-decoration:none}
+  a.done{color:#39693b}
+  a.active{background:#b8edb3;color:#3e6d3e;font-weight:700}
+  a.upcoming{opacity:.55}
+  .material-symbols-outlined{font-size:22px}
+</style></head>
+<body>
+  <div class="stepper">
+    <h2>Your Journey</h2>
+    <div class="sub">8 Steps to Success</div>
+    <nav>
+      <a class="done"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span>Identity</a>
+      <a class="done"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span>Education</a>
+      <a class="active"><span class="material-symbols-outlined">route</span>Pathway</a>
+      <a class="upcoming"><span class="material-symbols-outlined">description</span>Credentials</a>
+      <a class="upcoming"><span class="material-symbols-outlined">verified</span>Verification</a>
+    </nav>
+  </div>
+</body></html>
