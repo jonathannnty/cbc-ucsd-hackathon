@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { AppState, Screen } from '@/types';
 import { INITIAL_STATE } from '@/data';
 import { TopNavBar, JourneyStepper } from '@/components/Chrome';
@@ -39,7 +39,7 @@ const STEPPER_SCREENS: Screen[] = [
 
 export default function Home() {
   const [state, setState] = useState<AppState>(INITIAL_STATE);
-  const [highestReached, setHighestReached] = useState(0);
+  const highestReachedRef = useRef(0);
 
   const update = (patch: Partial<AppState>) =>
     setState((s) => ({ ...s, ...patch }));
@@ -48,7 +48,9 @@ export default function Home() {
     const i = FLOW.indexOf(state.screen);
     if (i < FLOW.length - 1) {
       const nextIdx = STEPPER_SCREENS.indexOf(FLOW[i + 1]);
-      if (nextIdx > highestReached) setHighestReached(nextIdx);
+      if (nextIdx > highestReachedRef.current) {
+        highestReachedRef.current = nextIdx;
+      }
       update({ screen: FLOW[i + 1] });
     }
   };
@@ -59,7 +61,7 @@ export default function Home() {
   };
 
   const stepperIdx = STEPPER_SCREENS.indexOf(state.screen);
-  const effectiveHighest = Math.max(highestReached, stepperIdx);
+  const effectiveHighest = Math.max(stepperIdx, highestReachedRef.current);
   const completedIds =
     effectiveHighest > 0 ? (STEPPER_SCREENS.slice(0, effectiveHighest) as Screen[]) : [];
 
@@ -98,7 +100,7 @@ export default function Home() {
             )}
             {state.screen === 'complete' && (
               <CompleteScreen
-                onRestart={() => { setState(INITIAL_STATE); setHighestReached(0); }}
+                onRestart={() => setState(INITIAL_STATE)}
                 onPrintPlan={() => {
                   update({ screen: 'plan' });
                   setTimeout(() => window.print(), 300);

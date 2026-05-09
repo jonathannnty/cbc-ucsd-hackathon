@@ -209,10 +209,12 @@ function QualificationFields({
             onBlur={() => setTimeout(() => setShowFieldDropdown(false), 200)}
             placeholder="Search or select a field of study"
             autoComplete="off"
+            style={{ paddingRight: 44 }}
           />
+          <span className="material-symbols-outlined field-chev">expand_more</span>
           {showFieldDropdown && filteredFields.length > 0 && (
             <ul className="search-dropdown">
-              {filteredFields.slice(0, 8).map((f) => (
+              {filteredFields.map((f) => (
                 <li
                   key={f.value}
                   onMouseDown={() => {
@@ -269,10 +271,12 @@ function QualificationFields({
             onBlur={() => setTimeout(() => setShowInstDropdown(false), 200)}
             placeholder="Type to search countries…"
             autoComplete="off"
+            style={{ paddingRight: 44 }}
           />
+          <span className="material-symbols-outlined field-chev">expand_more</span>
           {showInstDropdown && filteredCountries.length > 0 && (
             <ul className="search-dropdown">
-              {filteredCountries.slice(0, 8).map((c) => (
+              {filteredCountries.map((c) => (
                 <li
                   key={c.value}
                   onMouseDown={() => {

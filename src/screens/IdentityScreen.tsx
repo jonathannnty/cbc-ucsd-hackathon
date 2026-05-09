@@ -168,10 +168,12 @@ export default function IdentityScreen({ state, update, onBack, onContinue }: Pr
                 onBlur={() => setTimeout(() => setShowCountryDropdown(false), 200)}
                 placeholder="Type to search countries…"
                 autoComplete="off"
+                style={{ paddingRight: 44 }}
               />
+              <span className="material-symbols-outlined field-chev">expand_more</span>
               {showCountryDropdown && filteredCountries.length > 0 && (
                 <ul className="search-dropdown">
-                  {filteredCountries.slice(0, 8).map((c) => (
+                  {filteredCountries.map((c) => (
                     <li
                       key={c.value}
                       onMouseDown={() => {
@@ -184,11 +186,6 @@ export default function IdentityScreen({ state, update, onBack, onContinue }: Pr
                       {c.label}
                     </li>
                   ))}
-                  {filteredCountries.length > 8 && (
-                    <li className="search-dropdown-hint">
-                      {filteredCountries.length - 8} more — keep typing to narrow
-                    </li>
-                  )}
                 </ul>
               )}
             </div>

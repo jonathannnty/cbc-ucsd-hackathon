@@ -76,7 +76,7 @@ export function EvaluatorCard({
         className="btn-evaluator"
         onClick={onSelect}
       >
-        {selected ? 'Selected ✓' : 'Select'}
+        {selected ? 'Selected' : 'Select'}
       </button>
     </div>
   );

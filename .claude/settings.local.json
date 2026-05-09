@@ -10,7 +10,8 @@
       "Bash(npm run *)",
       "Bash(git fetch *)",
       "Bash(git checkout *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(npx next:*)"
     ]
   }
 }

@@ -54,7 +54,7 @@ export function JourneyStepper({ activeId, completedIds, onNavigate }: StepperPr
         {STEPS.map((s) => {
           const done = completedIds.includes(s.id);
           const active = s.id === activeId;
-          const clickable = done && !active;
+          const clickable = (done || active) && !active;
           const cls = active ? 'step active' : done ? 'step done' : 'step upcoming';
           return (
             <button

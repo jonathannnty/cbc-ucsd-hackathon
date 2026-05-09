@@ -103,19 +103,9 @@ export interface Task {
   statusLabel: string;
 }
 
-export interface AgentTask {
-  title: string;
-  desc: string;
-  status: 'priority' | 'upcoming' | 'completed';
-  statusLabel: string;
-}
-
 export interface AgentPlan {
   summary: string;
-  tasks: AgentTask[];
-  progressPct: number;
-  progress: { label: string; value: string }[];
   resources: { icon: string; name: string; contact: string; desc: string }[];
   roadblocks: { challenge: string; solution: string }[];
-  budget: { phase: string; cost: string; desc: string }[];
+  budget: { phase: string; desc: string; cost: string }[];
 }
