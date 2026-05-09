@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .panel{display:flex;flex-direction:column;gap:4px;background:var(--surface-container-low);padding:16px;border-radius:12px;width:240px}
+  .header{margin-bottom:8px}
+  .header h2{margin:0;font-size:18px;color:var(--primary);font-weight:600}
+  .header p{margin:0;font-size:12px;color:var(--on-surface-variant);font-weight:600}
+  a.step{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;text-decoration:none;color:var(--on-surface-variant);font-weight:600;font-size:14px}
+  a.step .ico{font-family:'Material Symbols Outlined';font-size:20px}
+  a.step.active{background:var(--secondary-container);color:var(--on-secondary-container)}
+  a.step.done{color:var(--secondary)}
+  a.step.future{opacity:.5}
+</style></head>
+<body>
+<div class="panel">
+  <div class="header"><h2>Your Journey</h2><p>8 Steps to Success</p></div>
+  <a class="step done" href="#"><span class="ico">person</span>Identity</a>
+  <a class="step done" href="#"><span class="ico">school</span>Education</a>
+  <a class="step active" href="#"><span class="ico">description</span>Credentials</a>
+  <a class="step future" href="#"><span class="ico">verified</span>Verification</a>
+  <a class="step future" href="#"><span class="ico">route</span>Pathway</a>
+  <a class="step future" href="#"><span class="ico">assignment_turned_in</span>SMART Plan</a>
+</div>
+</body></html>

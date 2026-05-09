@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:9999px;font-size:12px;font-weight:700;letter-spacing:0.01em}
+  .ico{font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1}
+  .high{background:var(--secondary-fixed);color:var(--on-secondary-fixed-variant)}
+  .med{background:var(--tertiary-fixed);color:var(--on-tertiary-fixed-variant)}
+  .low{background:var(--primary-fixed);color:var(--on-primary-fixed-variant)}
+  .completed{background:var(--secondary-container);color:var(--on-secondary-container)}
+  .upcoming{background:var(--surface-variant);color:var(--on-surface-variant)}
+  .priority{background:var(--error-container);color:var(--on-error-container)}
+  .recommended{background:var(--inverse-primary);color:var(--primary);text-transform:uppercase;letter-spacing:0.08em;font-size:10px;padding:4px 10px}
+</style></head>
+<body>
+<div class="row">
+  <span class="badge high"><span class="ico">check_circle</span> Confidence: High</span>
+  <span class="badge med"><span class="ico">help</span> Confidence: Medium</span>
+  <span class="badge low"><span class="ico">warning</span> Confidence: Low</span>
+</div>
+<div class="row" style="margin-top:14px">
+  <span class="badge completed">Completed</span>
+  <span class="badge upcoming">Upcoming</span>
+  <span class="badge priority">High Priority</span>
+  <span class="badge recommended">Recommended</span>
+</div>
+</body></html>

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\jonat\\\\OneDrive\\\\Desktop\\\\Projects\\\\cbc-ucsd-hackathon\" -Force)",
+      "Bash(Select-Object Name, FullName)"
+    ]
+  }
+}

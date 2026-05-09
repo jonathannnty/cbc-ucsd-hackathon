@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  button{font:700 14px/1.4 'Atkinson Hyperlegible Next';letter-spacing:.01em;cursor:pointer;border:none;transition:all .15s ease}
+  .primary{background:#9c3f12;color:#fff;padding:14px 28px;border-radius:12px;box-shadow:0 4px 12px -2px rgba(156,63,18,.10)}
+  .primary:hover{background:#bc5629}
+  .primary:active{transform:scale(.95)}
+  .secondary{background:transparent;color:#56423b;padding:14px 28px;border:1px solid #ddc0b6;border-radius:12px}
+  .secondary:hover{background:#f2e7d3}
+  .outline{background:transparent;color:#9c3f12;padding:12px 24px;border:2px solid #9c3f12;border-radius:12px}
+  .outline:hover{background:rgba(156,63,18,.05)}
+  .text{background:transparent;color:#9c3f12;padding:10px 14px;border-radius:8px;display:inline-flex;align-items:center;gap:6px}
+  .text:hover{background:#f2e7d3}
+</style></head>
+<body>
+  <div class="row">
+    <button class="primary">Get Started</button>
+    <button class="secondary">Save for Later</button>
+    <button class="outline">Talk to Advisor</button>
+    <button class="text">Read More <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
+  </div>
+</body></html>

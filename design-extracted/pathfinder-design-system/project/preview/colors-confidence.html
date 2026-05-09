@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body)}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:stretch}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9999px;font-size:14px;font-weight:700}
+  .dot{width:8px;height:8px;border-radius:9999px;background:currentColor}
+  .group{flex:1;min-width:200px;background:#fff;border:1px solid var(--outline-variant);border-radius:var(--radius-md);padding:16px;display:flex;flex-direction:column;gap:10px}
+  h4{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--on-surface-variant);font-weight:700}
+  .desc{font-size:12px;color:var(--on-surface-variant);line-height:1.5}
+</style></head>
+<body>
+  <div class="row">
+    <div class="group">
+      <h4>High</h4>
+      <span class="pill" style="background:#baf0b6;color:#215025"><span class="dot"></span>Confidence: High</span>
+      <p class="desc">Mapping is well-supported; proceed.</p>
+    </div>
+    <div class="group">
+      <h4>Medium</h4>
+      <span class="pill" style="background:#fedead;color:#58431f"><span class="dot"></span>Confidence: Medium</span>
+      <p class="desc">Verify with a NACES evaluator.</p>
+    </div>
+    <div class="group">
+      <h4>Low</h4>
+      <span class="pill" style="background:#ffdbce;color:#7f2b00"><span class="dot"></span>Confidence: Low</span>
+      <p class="desc">Defer to a human advisor.</p>
+    </div>
+  </div>
+</body></html>

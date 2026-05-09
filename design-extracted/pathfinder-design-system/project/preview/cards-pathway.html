@@ -1,0 +1,43 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:24px;background:var(--background);font-family:var(--font-body);color:var(--on-surface)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:680px}
+  .card{background:#fff;border:1px solid var(--outline-variant);border-radius:16px;padding:20px;display:flex;flex-direction:column}
+  .card .icon-box{width:36px;height:36px;border-radius:8px;background:var(--surface-container);display:inline-flex;align-items:center;justify-content:center;color:var(--primary);font-family:'Material Symbols Outlined';margin-bottom:14px}
+  .title{font-size:20px;font-weight:600;color:var(--primary);margin:0 0 6px}
+  .row{display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--outline-variant);padding:6px 0}
+  .row span:first-child{color:var(--on-surface-variant)}
+  .row span:last-child{font-weight:600}
+  .desc{font-size:14px;color:var(--on-surface-variant);margin:10px 0 14px;line-height:1.5}
+  .btn{margin-top:auto;padding:10px;background:var(--surface-container-high);color:var(--primary);font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
+  .reco{background:var(--primary-container);color:var(--on-primary-container);box-shadow:var(--shadow-md);position:relative;outline:2px solid var(--primary)}
+  .reco .icon-box{background:rgba(255,255,255,.12);color:#fff}
+  .reco .title{color:#fff}
+  .reco .row{border-color:rgba(255,255,255,.2)}
+  .reco .row span:first-child{opacity:.8}
+  .reco .desc{color:rgba(255,255,255,.92)}
+  .reco .btn{background:#fff;color:var(--primary-container)}
+  .chip{position:absolute;top:14px;right:14px;font-size:10px;font-weight:800;background:var(--inverse-primary);color:var(--primary);padding:3px 8px;border-radius:4px;letter-spacing:0.1em;text-transform:uppercase}
+</style></head>
+<body>
+<div class="grid">
+  <div class="card">
+    <span class="icon-box">science</span>
+    <h3 class="title">Clinical Research Asst.</h3>
+    <div class="row"><span>Time</span><span>6-9 Months</span></div>
+    <div class="row"><span>Cost</span><span>$500 - $1.2k</span></div>
+    <p class="desc">Use your analytical skills in academic research settings.</p>
+    <button class="btn">Select Path</button>
+  </div>
+  <div class="card reco">
+    <span class="chip">Recommended</span>
+    <span class="icon-box">group_add</span>
+    <h3 class="title">Physician Assistant</h3>
+    <div class="row"><span>Time</span><span>24 Months</span></div>
+    <div class="row"><span>Cost</span><span>$2,000 (Initial)</span></div>
+    <p class="desc">Specialized track for IMGs, leverages prior medical training.</p>
+    <button class="btn">Start Enrollment</button>
+  </div>
+</div>
+</body></html>
