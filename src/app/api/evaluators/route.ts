@@ -5,7 +5,7 @@ import { AppState } from '@/types';
 export const runtime = 'nodejs';
 
 // Run `ant beta:agents create` with agents/evaluator-recommender.yaml and paste the returned ID here.
-const EVALUATOR_AGENT_ID = 'PASTE_AGENT_ID_HERE';
+const EVALUATOR_AGENT_ID = 'agent_01TvLDcF5nn7Dyey2AsPW31V';
 const ENVIRONMENT_ID = 'env_019KPuJYXNaoyL3Eorbf7y2g';
 
 const PROFESSION_LABELS: Record<string, string> = {
