@@ -55,14 +55,12 @@ function PathwayCardSkeleton() {
 }
 
 export default function PathwayScreen({ state, update, onBack, onContinue }: Props) {
-  const [pathways, setPathways] = useState<Pathway[] | null>(null);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>(state.cachedPathways ? 'ready' : 'loading');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [pendingPathwayIndex, setPendingPathwayIndex] = useState<number | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const bufferRef = useRef('');
   const abortRef = useRef<AbortController | null>(null);
-  const initialFetchRef = useRef(true);
 
   const profLabel =
     state.profession === 'other' && state.otherProfession
@@ -97,11 +95,7 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
         }
         const parsed = parsePathways(bufferRef.current);
         if (parsed && parsed.length > 0) {
-          setPathways(parsed);
-          if (initialFetchRef.current) {
-            update({ pickedPathway: null });
-            initialFetchRef.current = false;
-          }
+          update({ cachedPathways: parsed, pickedPathway: null });
           setStatus('ready');
         } else {
           throw new Error('Could not parse pathway recommendations.');
@@ -116,9 +110,11 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
   }
 
   useEffect(() => {
-    startFetch();
+    if (!state.cachedPathways) {
+      startFetch();
+    }
     return () => abortRef.current?.abort();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const isLoading = status === 'loading';
 
@@ -170,7 +166,7 @@ export default function PathwayScreen({ state, update, onBack, onContinue }: Pro
           <div className="pathway-grid">
             {isLoading
               ? Array.from({ length: 4 }, (_, i) => <PathwayCardSkeleton key={i} />)
-              : (pathways ?? []).map((p, i) => (
+              : (state.cachedPathways ?? []).map((p, i) => (
                   <PathwayCard
                     key={p.title}
                     {...p}

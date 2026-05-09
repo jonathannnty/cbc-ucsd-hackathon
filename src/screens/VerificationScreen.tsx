@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { AppState, Evaluator } from '@/types';
-import { PATHWAYS } from '@/data';
 import { EvaluatorCard, HumanOversightDisclaimer } from '@/components/Cards';
 import { ConfirmationModal } from '@/components/ConfirmationModal';
 import { getValidIcon } from '@/utils/icons';
@@ -51,17 +50,15 @@ function EvaluatorCardSkeleton() {
 }
 
 export default function VerificationScreen({ state, update, onBack, onContinue }: Props) {
-  const [evaluators, setEvaluators] = useState<Evaluator[] | null>(null);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>(state.cachedEvaluators ? 'ready' : 'loading');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [pendingEvaluatorIndex, setPendingEvaluatorIndex] = useState<number | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const bufferRef = useRef('');
   const abortRef = useRef<AbortController | null>(null);
-  const initialFetchRef = useRef(true);
 
-  const selectedPathway = state.pickedPathway !== null ? PATHWAYS[state.pickedPathway] : null;
+  const selectedPathway = state.pickedPathway !== null ? state.cachedPathways?.[state.pickedPathway] : null;
 
   function startFetch() {
     setStatus('loading');
@@ -91,11 +88,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
         }
         const parsed = parseEvaluators(bufferRef.current);
         if (parsed && parsed.length > 0) {
-          setEvaluators(parsed);
-          if (initialFetchRef.current) {
-            update({ pickedEvaluator: null });
-            initialFetchRef.current = false;
-          }
+          update({ cachedEvaluators: parsed, pickedEvaluator: null });
           setStatus('ready');
         } else {
           throw new Error('Could not parse evaluator recommendations.');
@@ -110,9 +103,11 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
   }
 
   useEffect(() => {
-    startFetch();
+    if (!state.cachedEvaluators) {
+      startFetch();
+    }
     return () => abortRef.current?.abort();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const isLoading = status === 'loading';
 
@@ -139,8 +134,8 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
   };
 
   const handleBuildPlan = () => {
-    if (state.pickedEvaluator !== null && evaluators) {
-      const evaluator = evaluators[state.pickedEvaluator];
+    if (state.pickedEvaluator !== null && state.cachedEvaluators) {
+      const evaluator = state.cachedEvaluators[state.pickedEvaluator];
       const url = EVALUATOR_URLS[evaluator.name];
       if (url) {
         window.open(url, '_blank');
@@ -248,7 +243,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
           <div className="evaluator-grid">
             {isLoading
               ? Array.from({ length: 3 }, (_, i) => <EvaluatorCardSkeleton key={i} />)
-              : (evaluators ?? []).map((e, i) => (
+              : (state.cachedEvaluators ?? []).map((e, i) => (
                   <EvaluatorCard
                     key={e.name}
                     {...e}
@@ -293,7 +288,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
         />
       )}
 
-      {showModal && evaluators && state.pickedEvaluator !== null && (
+      {showModal && state.cachedEvaluators && state.pickedEvaluator !== null && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <div style={{ textAlign: 'center' }}>
@@ -309,7 +304,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
             </h2>
             <p style={{ margin: '0 0 24px', font: '400 15px/1.6 var(--font-body)', color: 'var(--on-surface-variant)', textAlign: 'center' }}>
               If you&rsquo;ve started the evaluation process with{' '}
-              <b>{evaluators[state.pickedEvaluator].name}</b>,
+              <b>{state.cachedEvaluators[state.pickedEvaluator].name}</b>,
               confirm below to proceed to your SMART plan.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

@@ -73,6 +73,9 @@ export interface AppState {
   // pathway + verification
   pickedPathway: number | null;
   pickedEvaluator: number | null;
+  // caching (to prevent refetches on screen navigation)
+  cachedPathways: Pathway[] | null;
+  cachedEvaluators: Evaluator[] | null;
 }
 
 export interface Pathway {

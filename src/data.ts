@@ -131,4 +131,6 @@ export const INITIAL_STATE: AppState = {
   months: 24,
   pickedPathway: null,
   pickedEvaluator: null,
+  cachedPathways: null,
+  cachedEvaluators: null,
 };
