@@ -26,10 +26,9 @@ const DEGREE_LABELS: Record<string, string> = {
 };
 
 const DOC_LABELS: Record<string, string> = {
-  all:       'Has all original documents',
-  partial:   'Has some documents — others are missing or need re-issuance',
-  none:      'No documents currently available',
-  destroyed: 'Documents were lost or destroyed',
+  all:     'Has all original documents',
+  partial: 'Has some documents — others are missing or need re-issuance',
+  none:    'No documents currently available',
 };
 
 function buildPrompt(state: AppState): string {
@@ -38,7 +37,7 @@ function buildPrompt(state: AppState): string {
       ? state.otherProfession
       : (PROFESSION_LABELS[state.profession] ?? state.profession);
 
-  const pathway: Pathway | undefined = PATHWAYS[state.pickedPathway];
+  const pathway: Pathway | undefined = state.pickedPathway !== null ? PATHWAYS[state.pickedPathway] : undefined;
   const evaluator =
     state.pickedEvaluator !== null ? EVALUATORS[state.pickedEvaluator] : null;
 

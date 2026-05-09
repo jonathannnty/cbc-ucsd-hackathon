@@ -35,9 +35,10 @@ export function TopNavBar() {
 interface StepperProps {
   activeId: Screen;
   completedIds: Screen[];
+  onNavigate: (screen: Screen) => void;
 }
 
-export function JourneyStepper({ activeId, completedIds }: StepperProps) {
+export function JourneyStepper({ activeId, completedIds, onNavigate }: StepperProps) {
   return (
     <aside className="stepper">
       <div className="stepper-head">
@@ -53,9 +54,16 @@ export function JourneyStepper({ activeId, completedIds }: StepperProps) {
         {STEPS.map((s) => {
           const done = completedIds.includes(s.id);
           const active = s.id === activeId;
+          const clickable = done && !active;
           const cls = active ? 'step active' : done ? 'step done' : 'step upcoming';
           return (
-            <span key={s.id} className={cls}>
+            <button
+              key={s.id}
+              className={cls}
+              onClick={clickable ? () => onNavigate(s.id) : undefined}
+              style={clickable ? { cursor: 'pointer' } : { cursor: 'default' }}
+              type="button"
+            >
               <span
                 className="material-symbols-outlined"
                 style={done && !active ? { fontVariationSettings: "'FILL' 1" } : undefined}
@@ -63,16 +71,10 @@ export function JourneyStepper({ activeId, completedIds }: StepperProps) {
                 {done && !active ? 'check_circle' : s.icon}
               </span>
               <span>{s.label}</span>
-            </span>
+            </button>
           );
         })}
       </nav>
-      <div className="stepper-support">
-        <button className="btn-outline" style={{ width: '100%' }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 18 }}>help_outline</span>
-          View Support
-        </button>
-      </div>
     </aside>
   );
 }
@@ -82,7 +84,7 @@ export function WhyDoWeNeedThis({ children }: { children: React.ReactNode }) {
     <div className="why-block">
       <span
         className="material-symbols-outlined"
-        style={{ color: 'var(--secondary)', fontVariationSettings: "'FILL' 1", flexShrink: 0 }}
+        style={{ color: 'var(--primary)', fontVariationSettings: "'FILL' 1", flexShrink: 0 }}
       >
         info
       </span>

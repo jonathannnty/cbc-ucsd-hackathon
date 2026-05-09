@@ -23,12 +23,6 @@ const DOC_OPTIONS: { id: DocSituation; icon: string; title: string; desc: string
     title: 'I have nothing on paper',
     desc: 'I had to leave without any official records.',
   },
-  {
-    id: 'destroyed',
-    icon: 'event_busy',
-    title: 'My institution no longer exists',
-    desc: 'My university or licensing body has closed.',
-  },
 ];
 
 interface Props {
@@ -66,7 +60,7 @@ export default function DocumentsScreen({ state, update, onBack, onContinue }: P
 
         <div className="row-actions">
           <button className="btn-secondary" onClick={onBack}>Back</button>
-          <button className="btn-primary" onClick={onContinue}>Continue to Budget</button>
+          <button className="btn-primary" onClick={onContinue} disabled={!state.docSituation}>Continue to Budget</button>
         </div>
       </div>
 

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AppState, AgentPlan } from '@/types';
 import { TaskRow, MeasurableProgress, TimeBoundCalendar } from '@/components/Tasks';
-import { SpecialistCard } from '@/components/Cards';
 import {
   PlanSummary,
   KeyResources,
@@ -116,10 +115,6 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
               <span className="material-symbols-outlined">print</span>
               Print PDF
             </button>
-            <button className="btn-primary">
-              <span className="material-symbols-outlined">support_agent</span>
-              Talk to a Specialist
-            </button>
           </div>
         </div>
 
@@ -180,7 +175,7 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
             </section>
           </div>
 
-          {/* Right: Progress + Calendar + Specialist */}
+          {/* Right: Progress + Calendar */}
           <div className="section-stack">
             {isLoading ? (
               <section className="card">
@@ -194,7 +189,6 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
               <MeasurableProgress pct={planData.progressPct} rows={planData.progress} />
             ) : null}
             <TimeBoundCalendar month="October" year={2026} picked={15} deadlines={[22]} />
-            <SpecialistCard />
           </div>
         </div>
 

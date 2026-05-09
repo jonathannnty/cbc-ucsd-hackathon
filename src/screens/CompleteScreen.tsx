@@ -2,9 +2,10 @@
 
 interface Props {
   onRestart: () => void;
+  onPrintPlan: () => void;
 }
 
-export default function CompleteScreen({ onRestart }: Props) {
+export default function CompleteScreen({ onRestart, onPrintPlan }: Props) {
   return (
     <div className="success">
       <div className="success-icon">
@@ -21,7 +22,7 @@ export default function CompleteScreen({ onRestart }: Props) {
         <button className="btn-secondary" onClick={onRestart}>
           Start Over
         </button>
-        <button className="btn-primary" onClick={() => window.print()}>
+        <button className="btn-primary" onClick={onPrintPlan}>
           <span className="material-symbols-outlined">print</span>
           Print Your Plan
         </button>

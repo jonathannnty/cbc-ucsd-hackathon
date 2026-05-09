@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import { AppState, Profession } from '@/types';
 import { Field, SelectInput, TextInput } from '@/components/Form';
 import { WhyDoWeNeedThis } from '@/components/Chrome';
@@ -12,6 +13,35 @@ const PROFESSIONS = [
   { value: 'architect', label: 'Architect' },
   { value: 'other',     label: 'Other Professional' },
 ];
+
+const ALL_COUNTRIES = [
+  'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia',
+  'Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium',
+  'Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei',
+  'Bulgaria','Burkina Faso','Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic',
+  'Chad','Chile','China','Colombia','Comoros','Congo (DRC)','Congo (Republic)','Costa Rica',
+  "Côte d'Ivoire",'Croatia','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica',
+  'Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia',
+  'Eswatini','Ethiopia','Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana',
+  'Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hungary',
+  'Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan',
+  'Kazakhstan','Kenya','Kiribati','Kosovo','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho',
+  'Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia',
+  'Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia',
+  'Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar','Namibia','Nauru',
+  'Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia',
+  'Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru',
+  'Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis',
+  'Saint Lucia','Saint Vincent and the Grenadines','Samoa','San Marino','São Tomé and Príncipe',
+  'Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia',
+  'Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan',
+  'Suriname','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste',
+  'Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine',
+  'United Arab Emirates','United Kingdom','Uruguay','Uzbekistan','Vanuatu','Vatican City','Venezuela',
+  'Vietnam','Yemen','Zambia','Zimbabwe',
+];
+
+const COUNTRY_OPTIONS = ALL_COUNTRIES.map((c) => ({ value: c, label: c }));
 
 const US_STATES = [
   { value: 'AL', label: 'Alabama' },
@@ -74,6 +104,21 @@ interface Props {
 }
 
 export default function IdentityScreen({ state, update, onBack, onContinue }: Props) {
+  const [countrySearch, setCountrySearch] = useState(state.country);
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+
+  const filteredCountries = useMemo(() => {
+    if (!countrySearch.trim()) return COUNTRY_OPTIONS;
+    const q = countrySearch.toLowerCase();
+    return COUNTRY_OPTIONS.filter((c) => c.label.toLowerCase().includes(q));
+  }, [countrySearch]);
+
+  const isValid =
+    state.profession !== '' &&
+    (state.profession !== 'other' || state.otherProfession.trim() !== '') &&
+    state.country.trim() !== '' &&
+    state.usState !== '';
+
   return (
     <div className="canvas-narrow">
       <div className="section-stack" style={{ marginBottom: 48 }}>
@@ -109,12 +154,44 @@ export default function IdentityScreen({ state, update, onBack, onContinue }: Pr
           )}
 
           <Field label="Which country did you earn your degree in?" htmlFor="country" icon="public">
-            <TextInput
-              id="country"
-              value={state.country}
-              onChange={(v) => update({ country: v })}
-              placeholder="Enter country name"
-            />
+            <div className="searchable-select">
+              <input
+                id="country"
+                type="text"
+                value={countrySearch}
+                onChange={(e) => {
+                  setCountrySearch(e.target.value);
+                  setShowCountryDropdown(true);
+                  if (!e.target.value.trim()) update({ country: '' });
+                }}
+                onFocus={() => setShowCountryDropdown(true)}
+                onBlur={() => setTimeout(() => setShowCountryDropdown(false), 200)}
+                placeholder="Type to search countries…"
+                autoComplete="off"
+              />
+              {showCountryDropdown && filteredCountries.length > 0 && (
+                <ul className="search-dropdown">
+                  {filteredCountries.slice(0, 8).map((c) => (
+                    <li
+                      key={c.value}
+                      onMouseDown={() => {
+                        update({ country: c.value });
+                        setCountrySearch(c.label);
+                        setShowCountryDropdown(false);
+                      }}
+                      className={state.country === c.value ? 'active' : ''}
+                    >
+                      {c.label}
+                    </li>
+                  ))}
+                  {filteredCountries.length > 8 && (
+                    <li className="search-dropdown-hint">
+                      {filteredCountries.length - 8} more — keep typing to narrow
+                    </li>
+                  )}
+                </ul>
+              )}
+            </div>
           </Field>
 
           <Field label="Which US state do you live in now?" htmlFor="usState" icon="location_on">
@@ -129,7 +206,7 @@ export default function IdentityScreen({ state, update, onBack, onContinue }: Pr
 
           <div className="row-actions">
             <button className="btn-secondary" onClick={onBack}>Back</button>
-            <button className="btn-primary" onClick={onContinue}>Continue to Education</button>
+            <button className="btn-primary" onClick={onContinue} disabled={!isValid}>Continue to Education</button>
           </div>
         </div>
       </div>

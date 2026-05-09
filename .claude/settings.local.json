@@ -4,7 +4,13 @@
       "WebFetch(domain:api.anthropic.com)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\jonat\\\\OneDrive\\\\Desktop\\\\Projects\\\\cbc-ucsd-hackathon\" -Force)",
       "Bash(Select-Object Name, FullName)",
-      "PowerShell(New-Item *)"
+      "PowerShell(New-Item *)",
+      "Skill(claude-api)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(git fetch *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)"
     ]
   }
 }
