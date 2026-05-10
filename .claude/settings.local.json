@@ -12,7 +12,10 @@
       "Bash(git checkout *)",
       "Bash(git add *)",
       "Bash(git push *)",
-      "Bash(Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue)"
+      "Bash(Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue)",
+      "Bash(git rm *)",
+      "Bash(git merge *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
