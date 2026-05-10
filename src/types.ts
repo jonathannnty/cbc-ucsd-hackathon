@@ -96,6 +96,7 @@ export interface Evaluator {
   metricLabel: string;
   ribbon: { icon: string; label: string };
   bullets: string[];
+  url?: string;
 }
 
 export interface Task {

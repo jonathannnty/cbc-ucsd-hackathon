@@ -1,5 +1,5 @@
 # ──────────────────────────────────────────────────────────────────────────────
-# Pathfinder — Pathway Recommender Agent
+# CertConvert — Pathway Recommender Agent
 #
 # PURPOSE
 #   Given a user's profession, educational background, credential/document
@@ -15,7 +15,7 @@
 #   Pass it to client.beta.sessions.create() in src/app/api/pathways/route.ts
 # ──────────────────────────────────────────────────────────────────────────────
 
-name: "Pathfinder — Pathway Recommender"
+name: "CertConvert — Pathway Recommender"
 model: claude-opus-4-7
 
 system: |

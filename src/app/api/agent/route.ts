@@ -41,7 +41,7 @@ function buildPrompt(state: AppState): string {
   const evaluator =
     state.pickedEvaluator !== null ? EVALUATORS[state.pickedEvaluator] : null;
 
-  return `You are a credential-translation advisor for Pathfinder, helping immigrants and refugees recertify in the United States.
+  return `You are a credential-translation advisor for CertConvert, helping immigrants and refugees recertify in the United States.
 
 USER PROFILE
 - Profession: ${profession}

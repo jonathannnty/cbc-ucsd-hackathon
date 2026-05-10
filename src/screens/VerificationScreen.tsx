@@ -8,8 +8,15 @@ import { getValidIcon } from '@/utils/icons';
 
 const EVALUATOR_URLS: Record<string, string> = {
   'Josef Silny': 'https://www.jsilny.org',
+  'Josef Silny & Associates': 'https://www.jsilny.org',
   'WES': 'https://www.wes.org',
+  'World Education Services': 'https://www.wes.org',
+  'World Education Services (WES)': 'https://www.wes.org',
   'ECFMG': 'https://www.ecfmg.org',
+  'Educational Commission for Foreign Medical Graduates': 'https://www.ecfmg.org',
+  'AACRAO': 'https://www.aacrao.org',
+  'AACRAO (American Association of Collegiate Registrars)': 'https://www.aacrao.org',
+  'American Association of Collegiate Registrars & Admissions Officers': 'https://www.aacrao.org',
 };
 
 interface Props {
@@ -136,7 +143,20 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
   const handleBuildPlan = () => {
     if (state.pickedEvaluator !== null && state.cachedEvaluators) {
       const evaluator = state.cachedEvaluators[state.pickedEvaluator];
-      const url = EVALUATOR_URLS[evaluator.name];
+      let url = evaluator.url;
+
+      // Fallback: search the map by exact name or partial match
+      if (!url) {
+        url = EVALUATOR_URLS[evaluator.name];
+        if (!url) {
+          // Try to find by partial name match
+          const partialMatch = Object.keys(EVALUATOR_URLS).find(key =>
+            evaluator.name.includes(key) || key.includes(evaluator.name.split('(')[0].trim())
+          );
+          url = partialMatch ? EVALUATOR_URLS[partialMatch] : undefined;
+        }
+      }
+
       if (url) {
         window.open(url, '_blank');
       }
@@ -219,7 +239,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
               Why get an independent evaluation?
             </p>
             <p style={{ margin: 0, font: '400 14px/1.6 var(--font-body)', color: 'var(--on-surface-variant)' }}>
-              Pathfinder provides our best assessment of your credentials, but we could be wrong.
+              CertConvert provides our best assessment of your credentials, but we could be wrong.
               A NACES-approved evaluator provides an official, independent review that is recognized
               by US employers, licensing boards, and universities. We strongly recommend getting an
               independent evaluation to confirm your pathway — we&rsquo;d hate to steer you in the

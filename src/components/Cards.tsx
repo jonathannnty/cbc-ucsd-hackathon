@@ -92,7 +92,7 @@ export function HumanOversightDisclaimer() {
       <div className="oversight-body">
         <h4>Independent Human Review Recommended</h4>
         <p>
-          Pathfinder provides AI-generated pathway recommendations based on current data. Each credentialing case is unique. We strongly recommend a final review with an independent NACES-approved evaluator before committing to your pathway — they provide the official, human expert assessment that employers, licensing boards, and universities recognize.
+          CertConvert provides AI-generated pathway recommendations based on current data. Each credentialing case is unique. We strongly recommend a final review with an independent NACES-approved evaluator before committing to your pathway — they provide the official, human expert assessment that employers, licensing boards, and universities recognize.
         </p>
       </div>
     </div>
