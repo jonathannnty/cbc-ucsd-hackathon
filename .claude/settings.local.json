@@ -11,7 +11,12 @@
       "Bash(git fetch *)",
       "Bash(git checkout *)",
       "Bash(git add *)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(git push *)",
+      "Bash(Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue)",
+      "Bash(git merge *)",
+      "Bash(git rm *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
