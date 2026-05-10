@@ -267,8 +267,10 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
               className="btn-primary"
               onClick={handleBuildPlan}
               disabled={isLoading || state.pickedEvaluator === null}
+              style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
               Visit Evaluator &amp; Continue
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>open_in_new</span>
             </button>
           </div>
         </div>
