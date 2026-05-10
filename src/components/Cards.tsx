@@ -90,10 +90,9 @@ export function HumanOversightDisclaimer() {
         <span className="material-symbols-outlined">psychology</span>
       </div>
       <div className="oversight-body">
-        <h4>Human Oversight Disclaimer</h4>
+        <h4>Independent Human Review Recommended</h4>
         <p>
-          Pathfinder provides these comparisons based on current data. Each credentialing case is
-          unique. We strongly recommend a final review with a Pathfinder advisor before committing.
+          Pathfinder provides AI-generated pathway recommendations based on current data. Each credentialing case is unique. We strongly recommend a final review with an independent NACES-approved evaluator before committing to your pathway — they provide the official, human expert assessment that employers, licensing boards, and universities recognize.
         </p>
       </div>
     </div>
