@@ -133,4 +133,5 @@ export const INITIAL_STATE: AppState = {
   pickedEvaluator: null,
   cachedPathways: null,
   cachedEvaluators: null,
+  cachedPlan: null,
 };

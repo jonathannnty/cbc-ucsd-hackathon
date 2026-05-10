@@ -76,6 +76,7 @@ export interface AppState {
   // caching (to prevent refetches on screen navigation)
   cachedPathways: Pathway[] | null;
   cachedEvaluators: Evaluator[] | null;
+  cachedPlan: AgentPlan | null;
 }
 
 export interface Pathway {

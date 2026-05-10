@@ -15,6 +15,7 @@ import {
 
 interface Props {
   state: AppState;
+  update: (patch: Partial<AppState>) => void;
   onBack: () => void;
   onContinue: () => void;
 }
@@ -31,16 +32,14 @@ function parseAgentPlan(text: string): AgentPlan | null {
   }
 }
 
-export default function PlanScreen({ state, onBack, onContinue }: Props) {
-  const [planData, setPlanData] = useState<AgentPlan | null>(null);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+export default function PlanScreen({ state, update, onBack, onContinue }: Props) {
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>(state.cachedPlan ? 'ready' : 'loading');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const bufferRef = useRef('');
   const abortRef = useRef<AbortController | null>(null);
 
   function startFetch() {
     setStatus('loading');
-    setPlanData(null);
     setErrorMsg(null);
     bufferRef.current = '';
 
@@ -67,7 +66,7 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
         }
         const parsed = parseAgentPlan(bufferRef.current);
         if (parsed) {
-          setPlanData(parsed);
+          update({ cachedPlan: parsed });
           setStatus('ready');
         } else {
           throw new Error('Could not parse agent response.');
@@ -82,9 +81,11 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
   }
 
   useEffect(() => {
-    startFetch();
+    if (!state.cachedPlan) {
+      startFetch();
+    }
     return () => abortRef.current?.abort();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const isLoading = status === 'loading';
 
@@ -138,8 +139,8 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
               <button className="btn-outline" onClick={startFetch} style={{ fontSize: 14 }}>Try Again</button>
             </div>
           </div>
-        ) : planData ? (
-          <PlanSummary summary={planData.summary} />
+        ) : state.cachedPlan ? (
+          <PlanSummary summary={state.cachedPlan.summary} />
         ) : null}
 
         {/* Main two-column grid */}
@@ -165,9 +166,9 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
               </div>
               {isLoading ? (
                 <TaskListSkeleton />
-              ) : planData ? (
+              ) : state.cachedPlan ? (
                 <div className="task-list">
-                  {planData.tasks.map((t, i) => (
+                  {state.cachedPlan.tasks.map((t, i) => (
                     <TaskRow key={i} task={{ ...t, id: i + 1 }} />
                   ))}
                 </div>
@@ -185,8 +186,8 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
                 </div>
                 <ProgressSkeleton />
               </section>
-            ) : planData ? (
-              <MeasurableProgress pct={planData.progressPct} rows={planData.progress} />
+            ) : state.cachedPlan ? (
+              <MeasurableProgress pct={state.cachedPlan.progressPct} rows={state.cachedPlan.progress} />
             ) : null}
             <TimeBoundCalendar month="October" year={2026} picked={15} deadlines={[22]} />
           </div>
@@ -199,10 +200,10 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
               <GenericCardSkeleton lines={5} />
               <GenericCardSkeleton lines={4} />
             </>
-          ) : planData ? (
+          ) : state.cachedPlan ? (
             <>
-              <KeyResources resources={planData.resources} />
-              <RoadblocksList roadblocks={planData.roadblocks} />
+              <KeyResources resources={state.cachedPlan.resources} />
+              <RoadblocksList roadblocks={state.cachedPlan.roadblocks} />
             </>
           ) : null}
         </div>
@@ -210,8 +211,8 @@ export default function PlanScreen({ state, onBack, onContinue }: Props) {
         {/* Budget — full width */}
         {isLoading ? (
           <GenericCardSkeleton lines={6} />
-        ) : planData ? (
-          <BudgetBreakdown budget={planData.budget} />
+        ) : state.cachedPlan ? (
+          <BudgetBreakdown budget={state.cachedPlan.budget} />
         ) : null}
 
         <div className="row-actions">
