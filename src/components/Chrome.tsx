@@ -17,17 +17,9 @@ export function TopNavBar() {
   return (
     <header className="topnav">
       <div className="topnav-brand">
-        <span
-          className="material-symbols-outlined"
-          style={{ fontVariationSettings: "'FILL' 1", color: 'var(--primary)', fontSize: 28 }}
-        >
-          route
-        </span>
-        <span className="wordmark">Pathfinder</span>
+        <span className="wordmark">CertConvert</span>
       </div>
-      <div className="topnav-right">
-        <div className="avatar" aria-label="User profile">YO</div>
-      </div>
+
     </header>
   );
 }

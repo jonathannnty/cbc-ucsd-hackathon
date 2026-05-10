@@ -1,14 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import { AppState } from '@/types';
-import { EVALUATORS, PATHWAYS } from '@/data';
+import { useEffect, useRef, useState } from 'react';
+import { AppState, Evaluator } from '@/types';
 import { EvaluatorCard, HumanOversightDisclaimer } from '@/components/Cards';
+import { ConfirmationModal } from '@/components/ConfirmationModal';
+import { getValidIcon } from '@/utils/icons';
 
 const EVALUATOR_URLS: Record<string, string> = {
   'Josef Silny': 'https://www.jsilny.org',
+  'Josef Silny & Associates': 'https://www.jsilny.org',
   'WES': 'https://www.wes.org',
+  'World Education Services': 'https://www.wes.org',
+  'World Education Services (WES)': 'https://www.wes.org',
   'ECFMG': 'https://www.ecfmg.org',
+  'Educational Commission for Foreign Medical Graduates': 'https://www.ecfmg.org',
+  'AACRAO': 'https://www.aacrao.org',
+  'AACRAO (American Association of Collegiate Registrars)': 'https://www.aacrao.org',
+  'American Association of Collegiate Registrars & Admissions Officers': 'https://www.aacrao.org',
 };
 
 interface Props {
@@ -18,11 +26,114 @@ interface Props {
   onContinue: () => void;
 }
 
-export default function VerificationScreen({ state, update, onBack, onContinue }: Props) {
-  const [showModal, setShowModal] = useState(false);
-  const [confirmedEvaluation, setConfirmedEvaluation] = useState(false);
+function parseEvaluators(text: string): Evaluator[] | null {
+  try {
+    const parsed = JSON.parse(text.trim());
+    if (Array.isArray(parsed)) return parsed as Evaluator[];
+  } catch { /* fall through */ }
+  const match = text.match(/\[[\s\S]*\]/);
+  if (match) {
+    try {
+      const parsed = JSON.parse(match[0]);
+      if (Array.isArray(parsed)) return parsed as Evaluator[];
+    } catch { /* fall through */ }
+  }
+  return null;
+}
 
-  const selectedPathway = state.pickedPathway !== null ? PATHWAYS[state.pickedPathway] : null;
+function EvaluatorCardSkeleton() {
+  return (
+    <div className="evaluator-card" style={{ gap: 14 }}>
+      <div className="skeleton-line" style={{ width: '40%', height: 20, borderRadius: 6 }} />
+      <div className="skeleton-line" style={{ width: '60%', height: 16, borderRadius: 6 }} />
+      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        <div className="skeleton-line" style={{ flex: 1, height: 40, borderRadius: 6 }} />
+        <div className="skeleton-line" style={{ flex: 1, height: 40, borderRadius: 6 }} />
+      </div>
+      <div className="skeleton-line" style={{ width: '100%', height: 60, borderRadius: 6 }} />
+      <div className="skeleton-line" style={{ width: '100%', height: 38, borderRadius: 8 }} />
+    </div>
+  );
+}
+
+export default function VerificationScreen({ state, update, onBack, onContinue }: Props) {
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>(state.cachedEvaluators ? 'ready' : 'loading');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [pendingEvaluatorIndex, setPendingEvaluatorIndex] = useState<number | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const bufferRef = useRef('');
+  const abortRef = useRef<AbortController | null>(null);
+
+  const selectedPathway = state.pickedPathway !== null ? state.cachedPathways?.[state.pickedPathway] : null;
+
+  function startFetch() {
+    setStatus('loading');
+    setErrorMsg(null);
+    bufferRef.current = '';
+
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    fetch('/api/evaluators', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state),
+      signal: controller.signal,
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const reader = res.body!.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          bufferRef.current += decoder.decode(value, { stream: true });
+        }
+        if (bufferRef.current.startsWith('__AGENT_ERROR__')) {
+          throw new Error(bufferRef.current.slice(15));
+        }
+        const parsed = parseEvaluators(bufferRef.current);
+        if (parsed && parsed.length > 0) {
+          update({ cachedEvaluators: parsed, pickedEvaluator: null });
+          setStatus('ready');
+        } else {
+          throw new Error('Could not parse evaluator recommendations.');
+        }
+      })
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          setErrorMsg(err.message ?? 'Unknown error');
+          setStatus('error');
+        }
+      });
+  }
+
+  useEffect(() => {
+    if (!state.cachedEvaluators) {
+      startFetch();
+    }
+    return () => abortRef.current?.abort();
+  }, []);
+
+  const isLoading = status === 'loading';
+
+  function handleEvaluatorSelect(index: number) {
+    if (state.pickedEvaluator !== null && state.pickedEvaluator !== index) {
+      setPendingEvaluatorIndex(index);
+      setShowConfirmModal(true);
+    } else {
+      update({ pickedEvaluator: index });
+    }
+  }
+
+  function confirmEvaluatorChange() {
+    if (pendingEvaluatorIndex !== null) {
+      update({ pickedEvaluator: pendingEvaluatorIndex });
+      setPendingEvaluatorIndex(null);
+      setShowConfirmModal(false);
+    }
+  }
 
   const handleSkip = () => {
     update({ pickedEvaluator: null });
@@ -30,9 +141,22 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
   };
 
   const handleBuildPlan = () => {
-    if (state.pickedEvaluator !== null) {
-      const evaluator = EVALUATORS[state.pickedEvaluator];
-      const url = EVALUATOR_URLS[evaluator.name];
+    if (state.pickedEvaluator !== null && state.cachedEvaluators) {
+      const evaluator = state.cachedEvaluators[state.pickedEvaluator];
+      let url = evaluator.url;
+
+      // Fallback: search the map by exact name or partial match
+      if (!url) {
+        url = EVALUATOR_URLS[evaluator.name];
+        if (!url) {
+          // Try to find by partial name match
+          const partialMatch = Object.keys(EVALUATOR_URLS).find(key =>
+            evaluator.name.includes(key) || key.includes(evaluator.name.split('(')[0].trim())
+          );
+          url = partialMatch ? EVALUATOR_URLS[partialMatch] : undefined;
+        }
+      }
+
       if (url) {
         window.open(url, '_blank');
       }
@@ -43,7 +167,6 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
   };
 
   const handleModalConfirm = () => {
-    setConfirmedEvaluation(true);
     setShowModal(false);
     onContinue();
   };
@@ -79,7 +202,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
                   fontSize: 24,
                 }}
               >
-                {selectedPathway.icon}
+                {getValidIcon(selectedPathway.icon)}
               </span>
               <div>
                 <h3 style={{ margin: 0, font: '600 18px/1.3 var(--font-display)' }}>
@@ -116,7 +239,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
               Why get an independent evaluation?
             </p>
             <p style={{ margin: 0, font: '400 14px/1.6 var(--font-body)', color: 'var(--on-surface-variant)' }}>
-              Pathfinder provides our best assessment of your credentials, but we could be wrong.
+              CertConvert provides our best assessment of your credentials, but we could be wrong.
               A NACES-approved evaluator provides an official, independent review that is recognized
               by US employers, licensing boards, and universities. We strongly recommend getting an
               independent evaluation to confirm your pathway — we&rsquo;d hate to steer you in the
@@ -125,16 +248,32 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
           </div>
         </div>
 
-        <div className="evaluator-grid">
-          {EVALUATORS.map((e, i) => (
-            <EvaluatorCard
-              key={e.name}
-              {...e}
-              selected={state.pickedEvaluator === i}
-              onSelect={() => update({ pickedEvaluator: i })}
-            />
-          ))}
-        </div>
+        {status === 'error' ? (
+          <div className="plan-summary" style={{ background: 'var(--error-container)', borderColor: 'var(--error)' }}>
+            <span className="material-symbols-outlined" style={{ color: 'var(--on-error-container)', flexShrink: 0 }}>
+              error
+            </span>
+            <div>
+              <p style={{ margin: 0, fontWeight: 600 }}>Could not generate evaluator recommendations</p>
+              <p style={{ margin: '4px 0 10px', fontSize: 14, color: 'var(--on-surface-variant)' }}>{errorMsg}</p>
+              <button className="btn-outline" onClick={startFetch} style={{ fontSize: 14 }}>Try Again</button>
+            </div>
+          </div>
+        ) : (
+          <div className="evaluator-grid">
+            {isLoading
+              ? Array.from({ length: 3 }, (_, i) => <EvaluatorCardSkeleton key={i} />)
+              : (state.cachedEvaluators ?? []).map((e, i) => (
+                  <EvaluatorCard
+                    key={e.name}
+                    {...e}
+                    selected={state.pickedEvaluator === i}
+                    onSelect={() => handleEvaluatorSelect(i)}
+                  />
+                ))
+            }
+          </div>
+        )}
 
         <HumanOversightDisclaimer />
 
@@ -147,15 +286,31 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
             <button
               className="btn-primary"
               onClick={handleBuildPlan}
-              disabled={state.pickedEvaluator === null}
+              disabled={isLoading || state.pickedEvaluator === null}
+              style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
               Visit Evaluator &amp; Continue
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>open_in_new</span>
             </button>
           </div>
         </div>
       </div>
 
-      {showModal && (
+      {showConfirmModal && (
+        <ConfirmationModal
+          title="Change Evaluator?"
+          message="Changing your evaluator selection will update your SMART plan recommendations. Are you sure you want to switch?"
+          onConfirm={confirmEvaluatorChange}
+          onCancel={() => {
+            setShowConfirmModal(false);
+            setPendingEvaluatorIndex(null);
+          }}
+          confirmLabel="Yes, Change It"
+          cancelLabel="Keep Current"
+        />
+      )}
+
+      {showModal && state.cachedEvaluators && state.pickedEvaluator !== null && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <div style={{ textAlign: 'center' }}>
@@ -171,7 +326,7 @@ export default function VerificationScreen({ state, update, onBack, onContinue }
             </h2>
             <p style={{ margin: '0 0 24px', font: '400 15px/1.6 var(--font-body)', color: 'var(--on-surface-variant)', textAlign: 'center' }}>
               If you&rsquo;ve started the evaluation process with{' '}
-              <b>{state.pickedEvaluator !== null ? EVALUATORS[state.pickedEvaluator].name : ''}</b>,
+              <b>{state.cachedEvaluators[state.pickedEvaluator].name}</b>,
               confirm below to proceed to your SMART plan.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

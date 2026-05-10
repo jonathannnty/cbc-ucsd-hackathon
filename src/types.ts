@@ -73,6 +73,10 @@ export interface AppState {
   // pathway + verification
   pickedPathway: number | null;
   pickedEvaluator: number | null;
+  // caching (to prevent refetches on screen navigation)
+  cachedPathways: Pathway[] | null;
+  cachedEvaluators: Evaluator[] | null;
+  cachedPlan: AgentPlan | null;
 }
 
 export interface Pathway {
@@ -92,6 +96,7 @@ export interface Evaluator {
   metricLabel: string;
   ribbon: { icon: string; label: string };
   bullets: string[];
+  url?: string;
 }
 
 export interface Task {

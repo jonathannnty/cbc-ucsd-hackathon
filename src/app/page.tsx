@@ -96,7 +96,7 @@ export default function Home() {
               <VerificationScreen state={state} update={update} onBack={back} onContinue={next} />
             )}
             {state.screen === 'plan' && (
-              <PlanScreen state={state} onBack={back} onContinue={next} />
+              <PlanScreen state={state} update={update} onBack={back} onContinue={next} />
             )}
             {state.screen === 'complete' && (
               <CompleteScreen

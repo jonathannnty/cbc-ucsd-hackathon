@@ -1,6 +1,7 @@
 'use client';
 
 import { Pathway, Evaluator } from '@/types';
+import { getValidIcon } from '@/utils/icons';
 
 export function StatusPill({ kind, children }: { kind: string; children: React.ReactNode }) {
   return <span className={`pill status-${kind}`}>{children}</span>;
@@ -17,7 +18,7 @@ export function PathwayCard({
   return (
     <div className={`pathway-card${selected ? ' recommended' : ''}`}>
       <div className="pathway-top">
-        <span className="pathway-icon material-symbols-outlined">{icon}</span>
+        <span className="pathway-icon material-symbols-outlined">{getValidIcon(icon)}</span>
         {recommended && <span className="recommended-chip">Recommended</span>}
       </div>
       <h3>{title}</h3>
@@ -49,7 +50,7 @@ export function EvaluatorCard({
     <div className={`evaluator-card${selected ? ' selected' : ''}`}>
       {ribbon && (
         <span className="evaluator-ribbon">
-          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{ribbon.icon}</span>
+          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{getValidIcon(ribbon.icon)}</span>
           {ribbon.label}
         </span>
       )}
@@ -89,10 +90,9 @@ export function HumanOversightDisclaimer() {
         <span className="material-symbols-outlined">psychology</span>
       </div>
       <div className="oversight-body">
-        <h4>Human Oversight Disclaimer</h4>
+        <h4>Independent Human Review Recommended</h4>
         <p>
-          Pathfinder provides these comparisons based on current data. Each credentialing case is
-          unique. We strongly recommend a final review with a Pathfinder advisor before committing.
+          CertConvert provides AI-generated pathway recommendations based on current data. Each credentialing case is unique. We strongly recommend a final review with an independent NACES-approved evaluator before committing to your pathway — they provide the official, human expert assessment that employers, licensing boards, and universities recognize.
         </p>
       </div>
     </div>
