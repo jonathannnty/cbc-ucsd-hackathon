@@ -26,11 +26,12 @@ export default function WelcomeScreen({ onContinue }: Props) {
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <div className="image-card">
-            <p className="image-card-caption">
-              Diverse professionals collaborating in a sun-drenched workspace.
-            </p>
-          </div>
+          <img
+              src="/images/landingimg.jpg"
+              alt="Professionals collaborating"
+              className="image-card"
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
         </div>
       </div>
 
@@ -45,11 +46,6 @@ export default function WelcomeScreen({ onContinue }: Props) {
             icon: 'route',
             title: 'Career Pathways',
             desc: 'Clear, step-by-step roadmaps for your profession.',
-          },
-          {
-            icon: 'support_agent',
-            title: 'Human Support',
-            desc: 'Expert guidance to overcome bureaucratic hurdles.',
           },
         ].map((item) => (
           <div
